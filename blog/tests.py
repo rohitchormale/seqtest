@@ -46,7 +46,7 @@ class ArticleTestCase(TestBase):
 
     def create_article_with_invalid_data(self):
         uri = "/blog/article/"
-        self.status_code_test(uri, 200, 'POST', {})
+        self.status_code_test(uri, 400, 'POST', {})
 
     def create_article_with_valid_data(self):
         uri = "/blog/article/"
@@ -55,16 +55,16 @@ class ArticleTestCase(TestBase):
     def update_article_with_invalid_data(self):
         article = Article.objects.get(title=MOCK_ARTICLE['title'])
         uri = "/blog/article/%s/" % "33"
-        self.status_code_test(uri, 200, 'POST', MOCK_ARTICLE)
+        self.status_code_test(uri, 404, 'PUT', MOCK_ARTICLE)
 
     def update_article_with_valid_data(self):
         article = Article.objects.get(title=MOCK_ARTICLE['title'])
         uri = "/blog/article/%s/" % article.id
-        self.status_code_test(uri, 200, 'POST', MOCK_ARTICLE)
+        self.status_code_test(uri, 200, 'PUT', MOCK_ARTICLE)
 
     def delete_article_with_invalid_data(self):
         uri = '/blog/article/%s/' % '10000'
-        self.status_code_test(uri, 400, 'DELETE')
+        self.status_code_test(uri, 404, 'DELETE')
 
     def delete_article_with_valid_data(self):
         article = Article.objects.get(title=MOCK_ARTICLE['title'])
